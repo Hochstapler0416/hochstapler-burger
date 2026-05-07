@@ -1,0 +1,62 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "tSIzQHwAPj0r00bHbtwuz"
+uri = "file://artifacts/hochstapler-burger/src/assets/images/hero-burger.png"
+type = "image"
+title = "Appetizing craft burger hero shot"
+
+[[generated]]
+id = "mhkqEFZ2Gihbgzdzx8RQz"
+uri = "file://artifacts/hochstapler-burger/src/assets/images/interior-bar.png"
+type = "image"
+title = "Warm industrial restaurant interior"
+
+[[generated]]
+id = "lVA0zCuJnD1rBcuwa2kW3"
+uri = "file://artifacts/hochstapler-burger/src/assets/images/meat-sourcing.png"
+type = "image"
+title = "High quality raw beef preparation"
+
+[[generated]]
+id = "ZlbHCF5OHRQS1q1G3tJ4Y"
+uri = "file://artifacts/hochstapler-burger/src/assets/images/cheese-sourcing.png"
+type = "image"
+title = "Artisanal cheese wheel cutting"
+
+[[generated]]
+id = "jF4k7u3P-gLxfdkYe_9Rf"
+uri = "file://artifacts/hochstapler-burger/src/assets/images/gallery-1.png"
+type = "image"
+title = "Gourmet chicken burger"
+
+[[generated]]
+id = "b29Q_VvO3Ylak1_dL1cAr"
+uri = "file://artifacts/hochstapler-burger/src/assets/images/gallery-2.png"
+type = "image"
+title = "Chili cheese fries"
+
+[[generated]]
+id = "xOq-Xwv__b2IPaPjBtK13"
+uri = "file://artifacts/hochstapler-burger/src/assets/images/gallery-3.png"
+type = "image"
+title = "Fresh mixed salad with goat cheese"
+
+[[generated]]
+id = "WcsTQoukOkL4X6VjdSibd"
+uri = "file://artifacts/hochstapler-burger/src/assets/images/gallery-4.png"
+type = "image"
+title = "Craft beer pouring into glass"
+
+[[generated]]
+id = "Pi-KSYNoRzKtOFKVC41KX"
+uri = "file://artifacts/hochstapler-burger/src/assets/images/gallery-5.png"
+type = "image"
+title = "Vegan burger with sweet potato fries"
+
+[[generated]]
+id = "z8Z9Z6e_iW92edTnDQs-z"
+uri = "file://artifacts/hochstapler-burger/src/assets/images/gallery-6.png"
+type = "image"
+title = "Truffle fries and dips"

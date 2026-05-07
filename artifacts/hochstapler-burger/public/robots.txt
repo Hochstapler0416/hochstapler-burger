@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hochstapler-burger.de/sitemap.xml
