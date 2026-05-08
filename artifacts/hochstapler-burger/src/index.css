@@ -36,6 +36,9 @@
   --color-accent-foreground: hsl(var(--accent-foreground));
   --color-accent-border: var(--accent-border);
 
+  --color-coral: hsl(var(--coral));
+  --color-coral-foreground: hsl(var(--coral-foreground));
+
   --color-destructive: hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
   --color-destructive-border: var(--destructive-border);
@@ -47,11 +50,13 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  --animate-marquee: marquee 28s linear infinite;
 }
 
 :root {
-  --background: 40 30% 97%; /* Warm off-white */
-  --foreground: 0 0% 20%; /* Dark charcoal #333333 */
+  --background: 40 30% 97%;
+  --foreground: 0 0% 20%;
   
   --card: 0 0% 100%;
   --card-foreground: 0 0% 20%;
@@ -61,7 +66,7 @@
   --popover-foreground: 0 0% 20%;
   --popover-border: 40 20% 90%;
 
-  --primary: 30 10% 15%; /* Deep amber/charcoal */
+  --primary: 30 10% 15%;
   --primary-foreground: 40 30% 97%;
 
   --secondary: 30 40% 90%;
@@ -72,8 +77,9 @@
 
   --accent: 144 54% 65%; /* Green #75D69C */
   --accent-foreground: 0 0% 20%;
-  
-  /* Alternative accent FE6C61 (Coral) can be used selectively */
+
+  --coral: 3 99% 69%; /* Coral #FE6C61 */
+  --coral-foreground: 0 0% 100%;
 
   --destructive: 4 99% 69%;
   --destructive-foreground: 0 0% 100%;
@@ -82,7 +88,7 @@
   --input: 40 20% 85%;
   --ring: 30 10% 15%;
 
-  --radius: 0rem; /* Industrial, sharper edges */
+  --radius: 0rem;
 
   --app-font-sans: 'Open Sans', sans-serif;
   --app-font-serif: 'Playfair Display', serif;
@@ -98,7 +104,6 @@
 }
 
 .dark {
-  /* Disabled dark mode as requested, but providing defaults just in case */
   --background: 40 30% 97%;
   --foreground: 0 0% 20%;
   --card: 0 0% 100%;
@@ -115,6 +120,8 @@
   --muted-foreground: 40 10% 40%;
   --accent: 144 54% 65%;
   --accent-foreground: 0 0% 20%;
+  --coral: 3 99% 69%;
+  --coral-foreground: 0 0% 100%;
   --destructive: 4 99% 69%;
   --destructive-foreground: 0 0% 100%;
   --border: 40 20% 85%;
@@ -134,4 +141,33 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif tracking-tight text-primary;
   }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: var(--animate-marquee);
+}
+
+/* Grain texture overlay */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+/* Diagonal clip paths */
+.clip-diagonal-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+}
+.clip-diagonal-top {
+  clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
 }
