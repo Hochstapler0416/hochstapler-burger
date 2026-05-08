@@ -43,7 +43,7 @@ export function Navbar() {
             <img
               src="https://hochstapler-burger.de/wp-content/uploads/2021/04/Logo_sticky.png"
               alt="Hochstapler Burger Logo"
-              className="h-10 md:h-12 w-auto transition-all duration-300"
+              className="h-10 md:h-12 w-auto transition-all duration-300 brightness-0 invert"
             />
           </Link>
 
