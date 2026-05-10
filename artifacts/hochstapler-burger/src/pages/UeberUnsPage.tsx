@@ -2,7 +2,7 @@ import { motion, type Variants, type Easing } from "framer-motion";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { SEO } from "@/components/SEO";
 import meatSourcing from "@/assets/images/about-burger.jpg";
-import cheeseSourcing from "@/assets/images/gallery-4.jpg";
+import cheeseSourcing from "@/assets/images/kaese-hafenkaeserei.png";
 import interiorBar from "@/assets/images/interior-main.jpg";
 import pageBg from "@/assets/images/parallax-bg.jpg";
 
