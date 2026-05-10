@@ -65,9 +65,9 @@ export function Navbar() {
               asChild
               className="bg-accent text-primary font-bold hover:bg-accent/90"
             >
-              <a href="mailto:reservierung@hochstapler-burger.de">
+              <Link href="/reservierung">
                 Reservierung anfragen
-              </a>
+              </Link>
             </Button>
           </nav>
 
@@ -106,9 +106,9 @@ export function Navbar() {
             asChild
             className="bg-accent text-primary font-bold mt-2 w-full"
           >
-            <a href="mailto:reservierung@hochstapler-burger.de">
+            <Link href="/reservierung">
               Reservierung anfragen
-            </a>
+            </Link>
           </Button>
         </div>
       </div>

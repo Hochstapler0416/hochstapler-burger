@@ -90,15 +90,16 @@ export default function KontaktPage() {
                 <h2 className="font-serif text-2xl text-primary mb-3">Reservierungen</h2>
                 <p className="text-muted-foreground mb-4">
                   Dieses Kontaktformular dient <strong>nicht</strong> für Reservierungen.
-                  Für Tischreservierungen schreibt uns bitte direkt eine Mail.
+                  Für Tischreservierungen nutzt bitte unsere Online-Buchung — bis 5 Personen
+                  direkt, ab 6 Personen per Gruppenanfrage.
                 </p>
                 <a
-                  href="mailto:reservierung@hochstapler-burger.de"
+                  href="/reservierung"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-bold text-sm uppercase tracking-wider hover:bg-primary/80 transition-colors"
                   data-testid="button-reservierung-kontakt"
                 >
                   <Mail size={16} />
-                  Reservierung anfragen
+                  Jetzt reservieren
                 </a>
               </div>
 
