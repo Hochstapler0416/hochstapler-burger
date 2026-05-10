@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
+import logoWeiss from "@/assets/images/logo-weiss.png";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -13,7 +14,7 @@ export function Footer() {
           <div className="flex flex-col space-y-4">
             <Link href="/" className="inline-block mb-2">
               <img
-                src="https://hochstapler-burger.de/wp-content/uploads/2021/04/Logo_sticky.png"
+                src={logoWeiss}
                 alt="Hochstapler Burger Logo"
                 className="h-14 w-auto"
               />
