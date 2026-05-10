@@ -235,23 +235,23 @@ export default function HomePage() {
             >
               <div className="absolute top-0 left-0 w-[72%] h-[75%] overflow-hidden">
                 <img
-                  src={interiorBar}
-                  alt="Bar und Lounge im Hochstapler Burger"
+                  src={meatSourcing}
+                  alt="Handgemachter Hochstapler Burger"
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                   loading="lazy"
                 />
               </div>
               <div className="absolute bottom-0 right-0 w-[55%] h-[55%] overflow-hidden border-8 border-background shadow-2xl">
                 <img
-                  src={meatSourcing}
-                  alt="Regionales Rindfleisch aus artgerechter Haltung"
+                  src={interiorBar}
+                  alt="Bar und Lounge im Hochstapler Burger"
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                   loading="lazy"
                 />
               </div>
               {/* Accent block */}
               <div className="absolute bottom-8 left-4 bg-coral text-white px-6 py-4 z-10">
-                <p className="font-serif text-3xl font-bold">2019</p>
+                <p className="font-serif text-3xl font-bold">2016</p>
                 <p className="text-xs uppercase tracking-widest font-semibold opacity-90">Gegründet</p>
               </div>
             </motion.div>
