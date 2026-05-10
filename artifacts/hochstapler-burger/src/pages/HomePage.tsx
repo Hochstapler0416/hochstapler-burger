@@ -209,7 +209,7 @@ export default function HomePage() {
             <div className="hidden md:block w-px h-4 bg-primary-foreground/20" />
             <div className="flex items-center gap-2" data-testid="info-hours">
               <Clock size={14} className="text-accent" />
-              <span>Mo – Do: 12 – 22 Uhr &nbsp;|&nbsp; Fr – Sa: 12 – 23 Uhr</span>
+              <span>Mo – Do: 16 – 0 Uhr &nbsp;|&nbsp; Fr: 16 – 2 Uhr &nbsp;|&nbsp; Sa: 13 – 2 Uhr &nbsp;|&nbsp; So: 13 – 22 Uhr</span>
             </div>
             <div className="hidden md:block w-px h-4 bg-primary-foreground/20" />
             <div className="flex items-center gap-2" data-testid="info-phone">

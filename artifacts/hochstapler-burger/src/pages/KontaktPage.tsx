@@ -153,20 +153,23 @@ export default function KontaktPage() {
                   </div>
                   <div>
                     <p className="font-bold text-primary mb-2">Öffnungszeiten</p>
-                    {/* [PLACEHOLDER] Confirm exact hours with restaurant */}
                     <table className="text-muted-foreground text-sm">
                       <tbody>
                         <tr>
                           <td className="pr-8 py-0.5">Montag – Donnerstag</td>
-                          <td>12:00 – 22:00 Uhr</td>
+                          <td>16:00 – 00:00 Uhr</td>
                         </tr>
                         <tr>
-                          <td className="pr-8 py-0.5">Freitag – Samstag</td>
-                          <td>12:00 – 23:00 Uhr</td>
+                          <td className="pr-8 py-0.5">Freitag</td>
+                          <td>16:00 – 02:00 Uhr</td>
+                        </tr>
+                        <tr>
+                          <td className="pr-8 py-0.5">Samstag</td>
+                          <td>13:00 – 02:00 Uhr</td>
                         </tr>
                         <tr>
                           <td className="pr-8 py-0.5">Sonntag</td>
-                          <td>12:00 – 22:00 Uhr</td>
+                          <td>13:00 – 22:00 Uhr</td>
                         </tr>
                       </tbody>
                     </table>

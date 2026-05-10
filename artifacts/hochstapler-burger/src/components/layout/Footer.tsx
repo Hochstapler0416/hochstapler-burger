@@ -55,18 +55,21 @@ export function Footer() {
           <div>
             <h3 className="font-serif text-xl mb-6 text-accent">Öffnungszeiten</h3>
             <ul className="space-y-3 text-muted-foreground">
-              {/* [PLACEHOLDER] Hours */}
-              <li className="flex justify-between">
-                <span>Mo - Do</span>
-                <span>12:00 - 22:00</span>
+              <li className="flex justify-between gap-4">
+                <span>Mo – Do</span>
+                <span>16:00 – 00:00</span>
               </li>
-              <li className="flex justify-between">
-                <span>Fr - Sa</span>
-                <span>12:00 - 23:00</span>
+              <li className="flex justify-between gap-4">
+                <span>Freitag</span>
+                <span>16:00 – 02:00</span>
               </li>
-              <li className="flex justify-between">
+              <li className="flex justify-between gap-4">
+                <span>Samstag</span>
+                <span>13:00 – 02:00</span>
+              </li>
+              <li className="flex justify-between gap-4">
                 <span>Sonntag</span>
-                <span>12:00 - 22:00</span>
+                <span>13:00 – 22:00</span>
               </li>
             </ul>
           </div>
