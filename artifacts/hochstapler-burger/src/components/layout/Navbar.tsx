@@ -7,7 +7,6 @@ const navLinks = [
   { href: "/", label: "Startseite" },
   { href: "/speisekarte", label: "Speisekarte" },
   { href: "/ueber-uns", label: "Über uns" },
-  { href: "/galerie", label: "Galerie" },
   { href: "/kontakt", label: "Kontakt" },
 ];
 

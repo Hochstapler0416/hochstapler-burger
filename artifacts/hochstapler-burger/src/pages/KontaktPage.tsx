@@ -1,3 +1,4 @@
+import pageBg from "@/assets/images/bar.jpg";
 import { motion, type Variants, type Easing } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -47,8 +48,12 @@ export default function KontaktPage() {
       />
 
       {/* PAGE HERO */}
-      <section className="bg-primary py-20 pt-28 text-center">
-        <div className="container mx-auto px-4 md:px-6">
+      <section className="relative bg-primary py-20 pt-28 text-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={pageBg} alt="" className="w-full h-full object-cover opacity-25" aria-hidden />
+          <div className="absolute inset-0 bg-primary/65" />
+        </div>
+        <div className="relative z-10 container mx-auto px-4 md:px-6">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

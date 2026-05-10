@@ -4,6 +4,7 @@ import { SEO } from "@/components/SEO";
 import meatSourcing from "@/assets/images/about-burger.jpg";
 import cheeseSourcing from "@/assets/images/gallery-4.jpg";
 import interiorBar from "@/assets/images/interior-main.jpg";
+import pageBg from "@/assets/images/parallax-bg.jpg";
 
 const ease: Easing = "easeOut";
 
@@ -21,8 +22,12 @@ export default function UeberUnsPage() {
       />
 
       {/* PAGE HERO */}
-      <section className="bg-primary py-20 pt-28 text-center">
-        <div className="container mx-auto px-4 md:px-6">
+      <section className="relative bg-primary py-20 pt-28 text-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={pageBg} alt="" className="w-full h-full object-cover opacity-25" aria-hidden />
+          <div className="absolute inset-0 bg-primary/65" />
+        </div>
+        <div className="relative z-10 container mx-auto px-4 md:px-6">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
