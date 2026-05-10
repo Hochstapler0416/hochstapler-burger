@@ -36,7 +36,14 @@ export default function KontaktPage() {
     defaultValues: { name: "", email: "", subject: "", message: "" },
   });
 
-  function onSubmit(_data: ContactForm) {
+  function onSubmit(data: ContactForm) {
+    const subject = encodeURIComponent(`Kontaktanfrage: ${data.subject}`);
+    const body = encodeURIComponent(
+      `Name: ${data.name}\n` +
+      `E-Mail: ${data.email}\n\n` +
+      `${data.message}`
+    );
+    window.location.href = `mailto:info@hochstapler-burger.de?subject=${subject}&body=${body}`;
     setSubmitted(true);
   }
 
@@ -212,10 +219,22 @@ export default function KontaktPage() {
                   data-testid="form-success"
                 >
                   <CheckCircle className="text-accent mx-auto mb-4" size={48} />
-                  <h3 className="font-serif text-2xl text-primary mb-3">Nachricht gesendet!</h3>
-                  <p className="text-muted-foreground">
-                    Vielen Dank für Ihre Nachricht. Wir melden uns schnellstmöglich zurück.
+                  <h3 className="font-serif text-2xl text-primary mb-3">E-Mail-Programm geöffnet</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Ihre Nachricht ist fertig vorbereitet — bitte klicken Sie auf <strong>Senden</strong> in Ihrem E-Mail-Programm.
                   </p>
+                  <p className="text-sm text-muted-foreground">
+                    Klappt das nicht?{" "}
+                    <a href="mailto:info@hochstapler-burger.de" className="text-accent hover:underline">
+                      info@hochstapler-burger.de
+                    </a>
+                  </p>
+                  <button
+                    onClick={() => setSubmitted(false)}
+                    className="mt-5 text-sm text-accent underline underline-offset-2 hover:opacity-80"
+                  >
+                    Neue Nachricht schreiben
+                  </button>
                 </motion.div>
               ) : (
                 <Form {...form}>
