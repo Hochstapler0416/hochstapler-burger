@@ -1,9 +1,9 @@
 import { motion, type Variants, type Easing } from "framer-motion";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { SEO } from "@/components/SEO";
-import meatSourcing from "@/assets/images/meat-sourcing.png";
-import cheeseSourcing from "@/assets/images/cheese-sourcing.png";
-import interiorBar from "@/assets/images/interior-bar.png";
+import meatSourcing from "@/assets/images/about-burger.jpg";
+import cheeseSourcing from "@/assets/images/gallery-4.jpg";
+import interiorBar from "@/assets/images/interior-main.jpg";
 
 const ease: Easing = "easeOut";
 

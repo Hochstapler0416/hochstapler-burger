@@ -3,10 +3,11 @@ import { motion, type Variants, type Easing } from "framer-motion";
 import { Star, MapPin, Clock, Phone, ArrowRight } from "lucide-react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { SEO } from "@/components/SEO";
-import heroBurger from "@/assets/images/hero-burger.png";
-import interiorBar from "@/assets/images/interior-bar.png";
-import meatSourcing from "@/assets/images/meat-sourcing.png";
-import cheeseSourcing from "@/assets/images/cheese-sourcing.png";
+import heroBurger from "@/assets/images/hero-burger.jpg";
+import interiorBar from "@/assets/images/interior-main.jpg";
+import barImage from "@/assets/images/bar.jpg";
+import meatSourcing from "@/assets/images/about-burger.jpg";
+import cheeseSourcing from "@/assets/images/hero-bg.jpg";
 
 const ease: Easing = "easeOut";
 
@@ -481,7 +482,7 @@ export default function HomePage() {
       {/* CTA BOOKING - Dark with texture */}
       <section className="relative py-28 md:py-40 bg-primary overflow-hidden grain">
         <div className="absolute inset-0">
-          <img src={interiorBar} alt="" className="w-full h-full object-cover opacity-15" aria-hidden />
+          <img src={barImage} alt="" className="w-full h-full object-cover opacity-15" aria-hidden />
           <div className="absolute inset-0 bg-primary/80" />
         </div>
         <div className="container mx-auto px-4 md:px-6 text-center relative z-10">

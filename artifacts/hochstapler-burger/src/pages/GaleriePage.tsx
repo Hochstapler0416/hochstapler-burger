@@ -3,15 +3,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { SEO } from "@/components/SEO";
-import gallery1 from "@/assets/images/gallery-1.png";
-import gallery2 from "@/assets/images/gallery-2.png";
-import gallery3 from "@/assets/images/gallery-3.png";
-import gallery4 from "@/assets/images/gallery-4.png";
-import gallery5 from "@/assets/images/gallery-5.png";
-import gallery6 from "@/assets/images/gallery-6.png";
-import heroBurger from "@/assets/images/hero-burger.png";
-import interiorBar from "@/assets/images/interior-bar.png";
-import meatSourcing from "@/assets/images/meat-sourcing.png";
+import gallery1 from "@/assets/images/gallery-1.jpg";
+import gallery2 from "@/assets/images/gallery-2.jpg";
+import gallery3 from "@/assets/images/gallery-3.jpg";
+import gallery4 from "@/assets/images/gallery-4.jpg";
+import gallery5 from "@/assets/images/hero-bg.jpg";
+import gallery6 from "@/assets/images/bar.jpg";
+import heroBurger from "@/assets/images/hero-burger.jpg";
+import interiorBar from "@/assets/images/interior-main.jpg";
+import meatSourcing from "@/assets/images/about-burger.jpg";
 
 const images = [
   { src: heroBurger, alt: "Handgemachter Hochstapler Burger — Meisterwerk aus dem Hafenweg" },
