@@ -10,6 +10,8 @@ import GaleriePage from "@/pages/GaleriePage";
 import KontaktPage from "@/pages/KontaktPage";
 import ImpressumPage from "@/pages/ImpressumPage";
 import DatenschutzPage from "@/pages/DatenschutzPage";
+import AdminLoginPage from "@/pages/AdminLoginPage";
+import AdminDashboardPage from "@/pages/AdminDashboardPage";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -24,6 +26,8 @@ function Router() {
       <Route path="/kontakt" component={KontaktPage} />
       <Route path="/impressum" component={ImpressumPage} />
       <Route path="/datenschutz" component={DatenschutzPage} />
+      <Route path="/admin" component={AdminLoginPage} />
+      <Route path="/admin/dashboard" component={AdminDashboardPage} />
       <Route component={NotFound} />
     </Switch>
   );
