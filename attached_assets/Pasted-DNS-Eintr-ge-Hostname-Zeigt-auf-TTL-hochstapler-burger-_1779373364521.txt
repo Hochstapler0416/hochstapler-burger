@@ -1,0 +1,116 @@
+DNS-Einträge
+Hostname	Zeigt auf	TTL
+.hochstapler-burger.de
+ergibt: http://hochstapler-burger.de	
+A
+5.35.225.59
+
+ 	
+10 Minuten (600)
+ 
+.hochstapler-burger.de
+ergibt: http://hochstapler-burger.de	
+TXT
+v=spf1 a mx include:spf.server-he.de -all
+
+ 	
+Standard (1 Tag - 86400)
+ 
+.hochstapler-burger.de
+ergibt: http://hochstapler-burger.de	
+AAAA
+2a01:488:42:1000:50ed:843b:ffe8:7861
+
+ 	
+10 Minuten (600)
+ 
+ftp.hochstapler-burger.de
+ergibt: http://ftp.hochstapler-burger.de	
+A
+5.35.225.59
+
+ 	
+10 Minuten (600)
+ 
+ftp.hochstapler-burger.de
+ergibt: http://ftp.hochstapler-burger.de	
+AAAA
+2a01:488:42:1000:50ed:843b:ffe8:7861
+
+ 	
+10 Minuten (600)
+ 
+he200277._domainkey.hochstapler-burger.de
+ergibt: http://he200277._domainkey.hochstapler-burger.de	
+TXT
+v=DKIM1; k=rsa; s=email; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3m9eBEFdKCN/uKaY2Ha62sAZqJSjFDYzJkDOY1XOW5/O+YDgRZsKIAT8f6MOVzKR2l5di7U9FNEcO0z2izLLLixRDeAXwFvIYRsp2i46vKHnvDOEhE54wK3uj8vosDg+7/5idMo//xA7Sl5hfX6GUJDU65cJe2Rd7QscoFzpMXKP697ihM7hu+9awlkSWY2vM8HvZk2idmwQNbyF5rYPTx68foiilF3GefYvpvIeFz4R4T2lnACoRTYNO4WxdU4+NuUakXJ9K3r4g3Ybsb9GindnOA06VKDPKS6rZKd4uvu5hdXf9mh0CprIE58N0oHsPh73T2OekN8fM3tILFvCxwIDAQAB
+
+
+10 Minuten (600)
+ 
+mail.hochstapler-burger.de
+ergibt: http://mail.hochstapler-burger.de	
+A
+5.35.225.59
+
+ 	
+10 Minuten (600)
+ 
+mail.hochstapler-burger.de
+ergibt: http://mail.hochstapler-burger.de	
+AAAA
+2a01:488:42:1000:50ed:843b:ffe8:7861
+
+ 	
+10 Minuten (600)
+ 
+mailout.hochstapler-burger.de
+ergibt: http://mailout.hochstapler-burger.de	
+A
+5.35.225.59
+
+ 	
+10 Minuten (600)
+ 
+mailout.hochstapler-burger.de
+ergibt: http://mailout.hochstapler-burger.de	
+AAAA
+2a01:488:42:1000:50ed:843b:ffe8:7861
+
+ 	
+10 Minuten (600)
+ 
+www.hochstapler-burger.de
+ergibt: http://www.hochstapler-burger.de	
+A
+5.35.225.59
+
+ 	
+10 Minuten (600)
+ 
+www.hochstapler-burger.de
+ergibt: http://www.hochstapler-burger.de	
+TXT
+google-site-verification=-OP5sDsU7dET4v6DOolCmhGdqNiK1ZX1api58O2TNX8
+
+ 	
+Standard (1 Tag - 86400)
+ 
+www.hochstapler-burger.de
+ergibt: http://www.hochstapler-burger.de	
+AAAA
+2a01:488:42:1000:50ed:843b:ffe8:7861
+
+ 	
+10 Minuten (600)
+ 
+_domainconnect.hochstapler-burger.de
+ergibt: http://_domainconnect.hochstapler-burger.de	
+TXT
+domainconnect.hosteurope.de
+
+
+10 Minuten (600)
+ 
+mx0.hochstapler-burger.de	80.237.138.5	Dieser Eintrag wird automatisch durch einen MX-Record erzeugt.
+Er kann nicht direkt gelöscht oder geändert werden.
