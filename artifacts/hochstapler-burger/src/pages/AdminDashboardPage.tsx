@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation } from "wouter";
-import { Plus, Pencil, Trash2, Check, X, Eye, EyeOff, LogOut, ChevronDown, ChevronRight, Star } from "lucide-react";
+import { Plus, Pencil, Trash2, Check, X, Eye, EyeOff, LogOut, ChevronDown, ChevronRight, Star, Upload, ImageIcon } from "lucide-react";
+import { useUpload } from "@workspace/object-storage-web";
 
 interface MenuItem {
   id: number;
@@ -305,6 +306,95 @@ function CategorySection({ cat, token, onRefresh }: {
 
 /* ── Edit Special Row ───────────────────────────────────── */
 
+function ImageUploadField({ imageUrl, onImageUrl }: {
+  imageUrl: string;
+  onImageUrl: (url: string) => void;
+}) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [preview, setPreview] = useState<string>(imageUrl);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  const { uploadFile, isUploading, progress } = useUpload({
+    basePath: "/api/storage",
+    onSuccess: (response) => {
+      const servedUrl = `/api/storage/objects${response.objectPath.replace(/^\/objects/, "")}`;
+      setPreview(servedUrl);
+      onImageUrl(servedUrl);
+      setUploadError(null);
+    },
+    onError: (err) => {
+      setUploadError(err.message);
+    },
+  });
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setUploadError("Nur Bilddateien erlaubt (JPG, PNG, WebP).");
+      return;
+    }
+    setUploadError(null);
+    await uploadFile(file);
+  };
+
+  return (
+    <div>
+      <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-1">Foto</label>
+      <div className="flex gap-3 items-start">
+        {/* Preview box */}
+        <div className="flex-shrink-0 w-20 h-20 border border-border bg-muted flex items-center justify-center overflow-hidden">
+          {preview ? (
+            <img src={preview} alt="Vorschau" className="w-full h-full object-cover" />
+          ) : (
+            <ImageIcon size={24} className="text-muted-foreground" />
+          )}
+        </div>
+        {/* Upload control */}
+        <div className="flex-1 min-w-0">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleFileChange}
+            disabled={isUploading}
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isUploading}
+            className="flex items-center gap-1.5 px-3 py-2 border border-border text-xs font-bold uppercase tracking-wider hover:bg-muted transition-colors disabled:opacity-50 w-full justify-center"
+          >
+            <Upload size={13} />
+            {isUploading ? `Hochladen… ${progress}%` : preview ? "Foto ändern" : "Foto auswählen"}
+          </button>
+          {isUploading && (
+            <div className="mt-2 h-1.5 bg-muted rounded-full overflow-hidden">
+              <div
+                className="h-full bg-accent transition-all duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          )}
+          {uploadError && (
+            <p className="text-xs text-coral mt-1">{uploadError}</p>
+          )}
+          {preview && !isUploading && (
+            <button
+              type="button"
+              onClick={() => { setPreview(""); onImageUrl(""); }}
+              className="text-xs text-muted-foreground mt-1 hover:text-coral transition-colors"
+            >
+              Foto entfernen
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function EditSpecialRow({ special, onSave, onDelete, onCancel }: {
   special: Partial<Special>;
   onSave: (data: Partial<Special>) => void;
@@ -360,15 +450,7 @@ function EditSpecialRow({ special, onSave, onDelete, onCancel }: {
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-1">Bild-URL</label>
-          <input
-            value={imageUrl}
-            onChange={e => setImageUrl(e.target.value)}
-            className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent"
-            placeholder="https://..."
-          />
-        </div>
+        <ImageUploadField imageUrl={imageUrl} onImageUrl={setImageUrl} />
         <div>
           <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-1">Typ</label>
           <select
