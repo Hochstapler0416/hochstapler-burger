@@ -24,7 +24,7 @@ router.post("/contact", async (req: Request, res: Response) => {
 
   try {
     const { error } = await resend.emails.send({
-      from: "Hochstapler Burger <onboarding@resend.dev>",
+      from: "Hochstapler Burger <kontakt@hochstapler-burger.de>",
       to: ["reservierung@hochstapler-burger.de"],
       replyTo: email,
       subject: `Kontaktanfrage: ${subject}`,
