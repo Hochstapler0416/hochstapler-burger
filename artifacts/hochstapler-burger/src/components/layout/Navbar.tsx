@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoSrc from "@/assets/images/logo-weiss.png";
 
 const navLinks = [
   { href: "/", label: "Startseite" },
@@ -41,9 +42,9 @@ export function Navbar() {
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center">
             <img
-              src="https://hochstapler-burger.de/wp-content/uploads/2021/04/Logo_sticky.png"
+              src={logoSrc}
               alt="Hochstapler Burger Logo"
-              className="h-10 md:h-12 w-auto transition-all duration-300 brightness-0 invert"
+              className="h-10 md:h-12 w-auto transition-all duration-300"
             />
           </Link>
 
