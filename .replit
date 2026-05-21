@@ -52,3 +52,10 @@ externalPort = 4200
 
 [nix]
 channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+SMTP_HOST = "smtp.server-he.de"
+SMTP_FROM = "kontakt@hochstapler-burger.de"
+SMTP_TO = "reservierung@hochstapler-burger.de"

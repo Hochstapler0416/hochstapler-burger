@@ -30,21 +30,30 @@ const fadeUp: Variants = {
 
 export default function KontaktPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
 
   const form = useForm<ContactForm>({
     resolver: zodResolver(contactSchema),
     defaultValues: { name: "", email: "", subject: "", message: "" },
   });
 
-  function onSubmit(data: ContactForm) {
-    const subject = encodeURIComponent(`Kontaktanfrage: ${data.subject}`);
-    const body = encodeURIComponent(
-      `Name: ${data.name}\n` +
-      `E-Mail: ${data.email}\n\n` +
-      `${data.message}`
-    );
-    window.location.href = `mailto:info@hochstapler-burger.de?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+  async function onSubmit(data: ContactForm) {
+    setSending(true);
+    setSendError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error("Fehler beim Senden");
+      setSubmitted(true);
+    } catch {
+      setSendError("Die Nachricht konnte leider nicht gesendet werden. Bitte versuchen Sie es später erneut oder schreiben Sie uns direkt an reservierung@hochstapler-burger.de.");
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -219,15 +228,9 @@ export default function KontaktPage() {
                   data-testid="form-success"
                 >
                   <CheckCircle className="text-accent mx-auto mb-4" size={48} />
-                  <h3 className="font-serif text-2xl text-primary mb-3">E-Mail-Programm geöffnet</h3>
+                  <h3 className="font-serif text-2xl text-primary mb-3">Nachricht gesendet!</h3>
                   <p className="text-muted-foreground mb-4">
-                    Ihre Nachricht ist fertig vorbereitet — bitte klicken Sie auf <strong>Senden</strong> in Ihrem E-Mail-Programm.
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Klappt das nicht?{" "}
-                    <a href="mailto:info@hochstapler-burger.de" className="text-accent hover:underline">
-                      info@hochstapler-burger.de
-                    </a>
+                    Vielen Dank — Ihre Nachricht ist bei uns eingegangen. Wir melden uns so schnell wie möglich.
                   </p>
                   <button
                     onClick={() => setSubmitted(false)}
@@ -313,13 +316,17 @@ export default function KontaktPage() {
                         </FormItem>
                       )}
                     />
+                    {sendError && (
+                      <p className="text-sm text-red-600 bg-red-50 border border-red-200 p-3">{sendError}</p>
+                    )}
                     <Button
                       type="submit"
-                      className="w-full bg-primary text-primary-foreground font-bold uppercase tracking-wider py-6 rounded-none hover:bg-primary/80 transition-colors flex items-center gap-2"
+                      disabled={sending}
+                      className="w-full bg-primary text-primary-foreground font-bold uppercase tracking-wider py-6 rounded-none hover:bg-primary/80 transition-colors flex items-center gap-2 disabled:opacity-60"
                       data-testid="button-submit-contact"
                     >
                       <Send size={16} />
-                      Nachricht senden
+                      {sending ? "Wird gesendet…" : "Nachricht senden"}
                     </Button>
                     <p className="text-muted-foreground text-xs text-center">
                       Dieses Formular ist für allgemeine Anfragen. Für Reservierungen nutzen Sie bitte die E-Mail oben.
