@@ -31,6 +31,8 @@ type GroupFormData = z.infer<typeof groupSchema>;
 export default function ReservierungPage() {
   const [mode, setMode] = useState<"small" | "group">("small");
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
 
   const {
     register,
@@ -41,25 +43,37 @@ export default function ReservierungPage() {
     defaultValues: { guests: 6 },
   });
 
-  function onSubmit(data: GroupFormData) {
-    const subject = encodeURIComponent(
-      `Gruppenanfrage – ${data.guests} Personen – ${data.date}`
-    );
-    const body = encodeURIComponent(
+  async function onSubmit(data: GroupFormData) {
+    setSending(true);
+    setSendError(null);
+    const message =
       `Hallo liebes Hochstapler-Team,\n\n` +
-        `hiermit möchten wir eine Tischreservierung für eine Gruppe anfragen:\n\n` +
-        `Name: ${data.name}\n` +
-        `E-Mail: ${data.email}\n` +
-        `Telefon: ${data.phone}\n` +
-        `Anzahl Personen: ${data.guests}\n` +
-        `Wunschdatum: ${data.date}\n` +
-        `Wunschzeit: ${data.time} Uhr\n` +
-        (data.occasion ? `Anlass: ${data.occasion}\n` : "") +
-        (data.notes ? `Anmerkungen: ${data.notes}\n` : "") +
-        `\nVielen Dank und bis bald!\n${data.name}`
-    );
-    window.location.href = `mailto:reservierung@hochstapler-burger.de?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+      `hiermit möchten wir eine Tischreservierung für eine Gruppe anfragen:\n\n` +
+      `Telefon: ${data.phone}\n` +
+      `Anzahl Personen: ${data.guests}\n` +
+      `Wunschdatum: ${data.date}\n` +
+      `Wunschzeit: ${data.time} Uhr\n` +
+      (data.occasion ? `Anlass: ${data.occasion}\n` : "") +
+      (data.notes ? `Anmerkungen: ${data.notes}\n` : "") +
+      `\nVielen Dank und bis bald!\n${data.name}`;
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          subject: `Gruppenanfrage – ${data.guests} Personen – ${data.date}`,
+          message,
+        }),
+      });
+      if (!res.ok) throw new Error("Fehler beim Senden");
+      setSubmitted(true);
+    } catch {
+      setSendError("Die Anfrage konnte leider nicht gesendet werden. Bitte schreiben Sie uns direkt an reservierung@hochstapler-burger.de.");
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
