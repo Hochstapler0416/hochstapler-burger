@@ -178,10 +178,10 @@ export default function ReservierungPage() {
                   <Check size={30} className="text-accent" />
                 </div>
                 <h2 className="font-serif text-2xl text-primary mb-3">
-                  E-Mail-Programm geöffnet
+                  Anfrage gesendet!
                 </h2>
                 <p className="text-muted-foreground mb-6">
-                  Ihre Anfrage ist als E-Mail vorbereitet — bitte senden Sie diese ab.
+                  Vielen Dank — wir haben Ihre Gruppenanfrage erhalten und melden uns so schnell wie möglich.
                 </p>
                 <p className="text-sm text-muted-foreground">
                   Fragen? Rufen Sie uns an:{" "}
@@ -203,9 +203,7 @@ export default function ReservierungPage() {
                   <div>
                     <p className="font-semibold text-primary text-sm">Gruppenanfrage (ab 6 Personen)</p>
                     <p className="text-muted-foreground text-sm mt-1">
-                      Formular ausfüllen — Ihr E-Mail-Programm öffnet sich mit einer fertigen
-                      Nachricht an{" "}
-                      <strong>reservierung@hochstapler-burger.de</strong>.
+                      Formular ausfüllen und absenden — wir melden uns direkt per E-Mail oder Telefon bei Ihnen.
                     </p>
                   </div>
                 </div>
@@ -287,12 +285,16 @@ export default function ReservierungPage() {
                     />
                   </div>
 
+                  {sendError && (
+                    <p className="text-sm text-red-600 bg-red-50 border border-red-200 p-3 rounded">{sendError}</p>
+                  )}
                   <Button
                     type="submit"
-                    className="w-full bg-accent text-primary font-bold hover:bg-accent/90 py-6 text-base"
+                    disabled={sending}
+                    className="w-full bg-accent text-primary font-bold hover:bg-accent/90 py-6 text-base disabled:opacity-60"
                   >
                     <Mail size={18} className="mr-2" />
-                    Anfrage senden
+                    {sending ? "Wird gesendet…" : "Anfrage senden"}
                   </Button>
 
                   <p className="text-xs text-muted-foreground text-center">
