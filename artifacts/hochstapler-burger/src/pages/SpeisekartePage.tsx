@@ -116,20 +116,29 @@ export default function SpeisekartePage() {
       {/* FOOD / DRINK TOGGLE */}
       <section className="bg-background border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex gap-0">
-            {(["food", "drink"] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => { setActiveTab(tab); setActiveCategoryId(null); }}
-                className={`px-8 py-4 font-bold text-sm uppercase tracking-wider border-b-2 transition-colors ${
-                  activeTab === tab
-                    ? "border-coral text-primary"
-                    : "border-transparent text-muted-foreground hover:text-primary"
-                }`}
-              >
-                {tab === "food" ? "Speisekarte" : "Getränkekarte"}
-              </button>
-            ))}
+          <div className="flex items-center justify-between">
+            <div className="flex gap-0">
+              {(["food", "drink"] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => { setActiveTab(tab); setActiveCategoryId(null); }}
+                  className={`px-8 py-4 font-bold text-sm uppercase tracking-wider border-b-2 transition-colors ${
+                    activeTab === tab
+                      ? "border-coral text-primary"
+                      : "border-transparent text-muted-foreground hover:text-primary"
+                  }`}
+                >
+                  {tab === "food" ? "Speisekarte" : "Getränkekarte"}
+                </button>
+              ))}
+            </div>
+            <a
+              href="/menu"
+              className="hidden md:flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-accent transition-colors pr-2"
+            >
+              <img src="https://flagcdn.com/gb.svg" alt="EN" className="w-5 h-3.5 object-cover" />
+              English Menu
+            </a>
           </div>
         </div>
       </section>

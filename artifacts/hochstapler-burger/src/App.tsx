@@ -13,6 +13,8 @@ import DatenschutzPage from "@/pages/DatenschutzPage";
 import AdminLoginPage from "@/pages/AdminLoginPage";
 import AdminDashboardPage from "@/pages/AdminDashboardPage";
 import ReservierungPage from "@/pages/ReservierungPage";
+import SpecialsPage from "@/pages/SpecialsPage";
+import EnglishMenuPage from "@/pages/EnglishMenuPage";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -28,6 +30,8 @@ function Router() {
       <Route path="/impressum" component={ImpressumPage} />
       <Route path="/datenschutz" component={DatenschutzPage} />
       <Route path="/reservierung" component={ReservierungPage} />
+      <Route path="/specials" component={SpecialsPage} />
+      <Route path="/menu" component={EnglishMenuPage} />
       <Route path="/admin" component={AdminLoginPage} />
       <Route path="/admin/dashboard" component={AdminDashboardPage} />
       <Route component={NotFound} />
