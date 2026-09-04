@@ -1,3 +1,4 @@
+import { apiUrl } from "@/lib/api";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MainLayout } from "@/components/layout/MainLayout";
@@ -53,10 +54,19 @@ function useMenu() {
   const [error, setError] = useState(false);
 
   useState(() => {
-    fetch("/api/menu")
-      .then((r) => r.json())
-      .then((d: MenuCategory[]) => { setData(d); setLoading(false); })
-      .catch(() => { setError(true); setLoading(false); });
+    fetch(apiUrl("/api/menu"))
+      .then((r) => {
+        if (!r.ok) throw new Error("Karte konnte nicht geladen werden");
+        return r.json();
+      })
+      .then((d: MenuCategory[]) => {
+        setData(d);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
   });
 
   return { data, loading, error };
@@ -78,12 +88,12 @@ export default function SpeisekartePage() {
         description="Die vollständige Speise- und Getränkekarte des Hochstapler Burger am Hafen in Münster. Handgemachte Craft Burger, Salate, vegane Optionen, Cocktails, Biere und mehr."
       />
 
-      {/* PAGE HERO */}
       <section className="relative bg-primary py-20 pt-28 text-center overflow-hidden">
         <div className="absolute inset-0">
           <img src={pageBg} alt="" className="w-full h-full object-cover opacity-25" aria-hidden />
           <div className="absolute inset-0 bg-primary/65" />
         </div>
+
         <div className="relative z-10 container mx-auto px-4 md:px-6">
           <motion.p
             initial={{ opacity: 0 }}
@@ -93,6 +103,7 @@ export default function SpeisekartePage() {
           >
             Mit Passion und Liebe
           </motion.p>
+
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -101,6 +112,7 @@ export default function SpeisekartePage() {
           >
             Unsere Karte
           </motion.h1>
+
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -113,7 +125,6 @@ export default function SpeisekartePage() {
         </div>
       </section>
 
-      {/* FOOD / DRINK TOGGLE */}
       <section className="bg-background border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between">
@@ -121,7 +132,10 @@ export default function SpeisekartePage() {
               {(["food", "drink"] as const).map((tab) => (
                 <button
                   key={tab}
-                  onClick={() => { setActiveTab(tab); setActiveCategoryId(null); }}
+                  onClick={() => {
+                    setActiveTab(tab);
+                    setActiveCategoryId(null);
+                  }}
                   className={`px-8 py-4 font-bold text-sm uppercase tracking-wider border-b-2 transition-colors ${
                     activeTab === tab
                       ? "border-coral text-primary"
@@ -132,6 +146,7 @@ export default function SpeisekartePage() {
                 </button>
               ))}
             </div>
+
             <a
               href="/menu"
               className="hidden md:flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-accent transition-colors pr-2"
@@ -143,7 +158,6 @@ export default function SpeisekartePage() {
         </div>
       </section>
 
-      {/* CATEGORY TABS */}
       <section className="sticky top-16 z-30 bg-background border-b border-border shadow-sm">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex gap-0 overflow-x-auto">
@@ -169,7 +183,6 @@ export default function SpeisekartePage() {
         </div>
       </section>
 
-      {/* MENU CONTENT */}
       <section className="py-16 bg-background min-h-[50vh]">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
           {loading && (
@@ -227,12 +240,14 @@ export default function SpeisekartePage() {
                             </span>
                           )}
                         </div>
+
                         {item.description && (
                           <p className="text-muted-foreground text-sm leading-relaxed">
                             {item.description}
                           </p>
                         )}
                       </div>
+
                       {item.price && (
                         <p className="font-bold text-lg text-primary whitespace-nowrap flex-shrink-0">
                           {formatPrice(item.price)}
@@ -247,7 +262,6 @@ export default function SpeisekartePage() {
         </div>
       </section>
 
-      {/* ALLERGEN NOTE */}
       <section className="py-8 bg-muted">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
           <p className="text-muted-foreground text-sm text-center">

@@ -1,3 +1,4 @@
+import { apiUrl } from "@/lib/api";
 import { useState } from "react";
 import { useLocation } from "wouter";
 
@@ -11,13 +12,16 @@ export default function AdminLoginPage() {
     e.preventDefault();
     setError("");
     setLoading(true);
+
     try {
-      const res = await fetch("/api/admin/login", {
+      const res = await fetch(apiUrl("/api/admin/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
       });
+
       const data = await res.json() as { token?: string; error?: string };
+
       if (!res.ok) {
         setError(data.error ?? "Anmeldung fehlgeschlagen");
       } else if (data.token) {
@@ -40,14 +44,19 @@ export default function AdminLoginPage() {
             alt="Hochstapler Burger"
             className="h-16 w-auto mx-auto mb-6 brightness-0 invert"
           />
-          <h1 className="font-serif text-2xl text-background">Mitarbeiter-Bereich</h1>
-          <p className="text-primary-foreground/60 text-sm mt-1">Melde dich an um die Karte zu bearbeiten</p>
+          <h1 className="font-serif text-2xl text-background">
+            Mitarbeiter-Bereich
+          </h1>
+          <p className="text-primary-foreground/60 text-sm mt-1">
+            Melde dich an um die Karte zu bearbeiten
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-background p-8">
           <label className="block text-sm font-semibold uppercase tracking-wider text-primary mb-2">
             Passwort
           </label>
+
           <input
             type="password"
             value={password}
@@ -58,7 +67,9 @@ export default function AdminLoginPage() {
           />
 
           {error && (
-            <p className="text-coral text-sm mb-4 font-semibold">{error}</p>
+            <p className="text-coral text-sm mb-4 font-semibold">
+              {error}
+            </p>
           )}
 
           <button

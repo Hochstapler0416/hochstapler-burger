@@ -1,3 +1,4 @@
+import { apiUrl } from "@/lib/api";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MainLayout } from "@/components/layout/MainLayout";
@@ -78,7 +79,7 @@ export default function SpecialsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/specials")
+    fetch(apiUrl("/api/specials"))
       .then((r) => r.json())
       .then((data: Special[]) => { setSpecials(data); setLoading(false); })
       .catch(() => setLoading(false));

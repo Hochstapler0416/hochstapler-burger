@@ -1,3 +1,4 @@
+import { apiUrl } from "@/lib/api";
 import pageBg from "@/assets/images/bar.jpg";
 import { motion, type Variants, type Easing } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -42,7 +43,7 @@ export default function KontaktPage() {
     setSending(true);
     setSendError(null);
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(apiUrl("/api/contact"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

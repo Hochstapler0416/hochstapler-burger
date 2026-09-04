@@ -1,3 +1,4 @@
+import { apiUrl } from "@/lib/api";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation } from "wouter";
 import { Plus, Pencil, Trash2, Check, X, Eye, EyeOff, LogOut, ChevronDown, ChevronRight, Star, Upload, ImageIcon } from "lucide-react";
@@ -59,61 +60,35 @@ function EditItemRow({ item, onSave, onDelete, onCancel }: {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
         <div>
           <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-1">Name *</label>
-          <input
-            value={name}
-            onChange={e => setName(e.target.value)}
-            className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent"
-            placeholder="z.B. Hochstapler"
-          />
+          <input value={name} onChange={e => setName(e.target.value)} className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent" placeholder="z.B. Hochstapler" />
         </div>
         <div>
           <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-1">Preis</label>
-          <input
-            value={price}
-            onChange={e => setPrice(e.target.value)}
-            className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent"
-            placeholder="z.B. 15,00 €"
-          />
+          <input value={price} onChange={e => setPrice(e.target.value)} className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent" placeholder="z.B. 15,00 €" />
         </div>
       </div>
+
       <div className="mb-3">
         <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-1">Beschreibung</label>
-        <textarea
-          value={description}
-          onChange={e => setDescription(e.target.value)}
-          rows={2}
-          className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent resize-none"
-          placeholder="Zutaten oder Beschreibung..."
-        />
+        <textarea value={description} onChange={e => setDescription(e.target.value)} rows={2} className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent resize-none" placeholder="Zutaten oder Beschreibung..." />
       </div>
+
       <div className="mb-4">
         <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-1">Kennzeichnung</label>
-        <input
-          value={badge}
-          onChange={e => setBadge(e.target.value)}
-          className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent"
-          placeholder="z.B. Vegan, Beliebt, Signature..."
-        />
+        <input value={badge} onChange={e => setBadge(e.target.value)} className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent" placeholder="z.B. Vegan, Beliebt, Signature..." />
       </div>
+
       <div className="flex gap-2 flex-wrap">
-        <button
-          onClick={() => onSave({ name, price, description, badge })}
-          disabled={!name.trim()}
-          className="flex items-center gap-1.5 px-4 py-2 bg-accent text-primary font-bold text-xs uppercase tracking-wider hover:bg-accent/90 transition-colors disabled:opacity-40"
-        >
+        <button onClick={() => onSave({ name, price, description, badge })} disabled={!name.trim()} className="flex items-center gap-1.5 px-4 py-2 bg-accent text-primary font-bold text-xs uppercase tracking-wider hover:bg-accent/90 transition-colors disabled:opacity-40">
           <Check size={14} /> Speichern
         </button>
-        <button
-          onClick={onCancel}
-          className="flex items-center gap-1.5 px-4 py-2 border border-border text-muted-foreground font-bold text-xs uppercase tracking-wider hover:bg-muted transition-colors"
-        >
+
+        <button onClick={onCancel} className="flex items-center gap-1.5 px-4 py-2 border border-border text-muted-foreground font-bold text-xs uppercase tracking-wider hover:bg-muted transition-colors">
           <X size={14} /> Abbrechen
         </button>
+
         {onDelete && (
-          <button
-            onClick={onDelete}
-            className="flex items-center gap-1.5 px-4 py-2 bg-coral text-white font-bold text-xs uppercase tracking-wider hover:bg-coral/90 transition-colors ml-auto"
-          >
+          <button onClick={onDelete} className="flex items-center gap-1.5 px-4 py-2 bg-coral text-white font-bold text-xs uppercase tracking-wider hover:bg-coral/90 transition-colors ml-auto">
             <Trash2 size={14} /> Löschen
           </button>
         )}
@@ -135,7 +110,7 @@ function CategorySection({ cat, token, onRefresh }: {
   const [saving, setSaving] = useState(false);
 
   async function toggleCategoryVisibility() {
-    await fetch(`/api/admin/categories/${cat.id}`, {
+    await fetch(apiUrl(`/api/admin/categories/${cat.id}`), {
       method: "PUT",
       headers: authHeaders(),
       body: JSON.stringify({ isVisible: !cat.isVisible }),
@@ -145,7 +120,7 @@ function CategorySection({ cat, token, onRefresh }: {
 
   async function saveItem(itemId: number, data: Partial<MenuItem>) {
     setSaving(true);
-    await fetch(`/api/admin/items/${itemId}`, {
+    await fetch(apiUrl(`/api/admin/items/${itemId}`), {
       method: "PUT",
       headers: authHeaders(),
       body: JSON.stringify(data),
@@ -157,7 +132,7 @@ function CategorySection({ cat, token, onRefresh }: {
 
   async function addItem(data: Partial<MenuItem>) {
     setSaving(true);
-    await fetch("/api/admin/items", {
+    await fetch(apiUrl("/api/admin/items"), {
       method: "POST",
       headers: authHeaders(),
       body: JSON.stringify({
@@ -178,7 +153,7 @@ function CategorySection({ cat, token, onRefresh }: {
   async function deleteItem(itemId: number) {
     if (!confirm("Gericht wirklich löschen?")) return;
     setSaving(true);
-    await fetch(`/api/admin/items/${itemId}`, {
+    await fetch(apiUrl(`/api/admin/items/${itemId}`), {
       method: "DELETE",
       headers: authHeaders(),
     });
@@ -188,7 +163,7 @@ function CategorySection({ cat, token, onRefresh }: {
   }
 
   async function toggleItemAvailable(item: MenuItem) {
-    await fetch(`/api/admin/items/${item.id}`, {
+    await fetch(apiUrl(`/api/admin/items/${item.id}`), {
       method: "PUT",
       headers: authHeaders(),
       body: JSON.stringify({ isAvailable: !item.isAvailable }),
@@ -202,10 +177,7 @@ function CategorySection({ cat, token, onRefresh }: {
   return (
     <div className={`border ${cat.isVisible ? "border-border" : "border-border opacity-60"} bg-card`}>
       <div className="flex items-center justify-between px-5 py-4">
-        <button
-          onClick={() => setOpen(!open)}
-          className="flex items-center gap-3 flex-1 text-left"
-        >
+        <button onClick={() => setOpen(!open)} className="flex items-center gap-3 flex-1 text-left">
           {open ? <ChevronDown size={18} className="text-muted-foreground flex-shrink-0" /> : <ChevronRight size={18} className="text-muted-foreground flex-shrink-0" />}
           <div>
             <span className="font-bold text-primary">{cat.name}</span>
@@ -213,11 +185,8 @@ function CategorySection({ cat, token, onRefresh }: {
           </div>
           <span className={`ml-3 text-xs font-bold uppercase tracking-wider px-2 py-0.5 ${typeColor}`}>{typeLabel}</span>
         </button>
-        <button
-          onClick={toggleCategoryVisibility}
-          title={cat.isVisible ? "Sichtbar — klicken zum Ausblenden" : "Ausgeblendet — klicken zum Einblenden"}
-          className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 transition-colors ${cat.isVisible ? "text-accent hover:text-accent/70" : "text-muted-foreground hover:text-primary"}`}
-        >
+
+        <button onClick={toggleCategoryVisibility} title={cat.isVisible ? "Sichtbar — klicken zum Ausblenden" : "Ausgeblendet — klicken zum Einblenden"} className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 transition-colors ${cat.isVisible ? "text-accent hover:text-accent/70" : "text-muted-foreground hover:text-primary"}`}>
           {cat.isVisible ? <Eye size={15} /> : <EyeOff size={15} />}
           <span className="hidden sm:inline">{cat.isVisible ? "Sichtbar" : "Ausgeblendet"}</span>
         </button>
@@ -233,44 +202,25 @@ function CategorySection({ cat, token, onRefresh }: {
             <div key={item.id} className="border-b border-border last:border-b-0">
               {editingItemId === item.id ? (
                 <div className="p-4">
-                  <EditItemRow
-                    item={item}
-                    onSave={(data) => saveItem(item.id, data)}
-                    onDelete={() => deleteItem(item.id)}
-                    onCancel={() => setEditingItemId(null)}
-                  />
+                  <EditItemRow item={item} onSave={(data) => saveItem(item.id, data)} onDelete={() => deleteItem(item.id)} onCancel={() => setEditingItemId(null)} />
                 </div>
               ) : (
                 <div className={`flex items-start justify-between gap-4 px-5 py-3 hover:bg-muted/30 transition-colors ${!item.isAvailable ? "opacity-50" : ""}`}>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-semibold text-primary text-sm">{item.name}</span>
-                      {item.badge && (
-                        <span className="text-xs px-2 py-0.5 bg-accent/20 text-primary font-bold uppercase tracking-wider">{item.badge}</span>
-                      )}
-                      {!item.isAvailable && (
-                        <span className="text-xs px-2 py-0.5 bg-muted text-muted-foreground font-bold uppercase tracking-wider">Nicht verfügbar</span>
-                      )}
+                      {item.badge && <span className="text-xs px-2 py-0.5 bg-accent/20 text-primary font-bold uppercase tracking-wider">{item.badge}</span>}
+                      {!item.isAvailable && <span className="text-xs px-2 py-0.5 bg-muted text-muted-foreground font-bold uppercase tracking-wider">Nicht verfügbar</span>}
                     </div>
-                    {item.description && (
-                      <p className="text-muted-foreground text-xs mt-0.5 truncate max-w-lg">{item.description}</p>
-                    )}
+                    {item.description && <p className="text-muted-foreground text-xs mt-0.5 truncate max-w-lg">{item.description}</p>}
                   </div>
+
                   <div className="flex items-center gap-1 flex-shrink-0">
-                    {item.price && (
-                      <span className="font-bold text-sm text-primary mr-2 whitespace-nowrap">{item.price}</span>
-                    )}
-                    <button
-                      onClick={() => toggleItemAvailable(item)}
-                      title={item.isAvailable ? "Als nicht verfügbar markieren" : "Als verfügbar markieren"}
-                      className="p-1.5 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
-                    >
+                    {item.price && <span className="font-bold text-sm text-primary mr-2 whitespace-nowrap">{item.price}</span>}
+                    <button onClick={() => toggleItemAvailable(item)} title={item.isAvailable ? "Als nicht verfügbar markieren" : "Als verfügbar markieren"} className="p-1.5 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-primary">
                       {item.isAvailable ? <Eye size={15} /> : <EyeOff size={15} />}
                     </button>
-                    <button
-                      onClick={() => { setEditingItemId(item.id); setAddingNew(false); }}
-                      className="p-1.5 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
-                    >
+                    <button onClick={() => { setEditingItemId(item.id); setAddingNew(false); }} className="p-1.5 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-primary">
                       <Pencil size={15} />
                     </button>
                   </div>
@@ -281,19 +231,11 @@ function CategorySection({ cat, token, onRefresh }: {
 
           {addingNew ? (
             <div className="p-4 border-t border-border">
-              <EditItemRow
-                item={{}}
-                onSave={addItem}
-                onCancel={() => setAddingNew(false)}
-              />
+              <EditItemRow item={{}} onSave={addItem} onCancel={() => setAddingNew(false)} />
             </div>
           ) : (
             <div className="px-5 py-3 border-t border-border">
-              <button
-                onClick={() => { setAddingNew(true); setEditingItemId(null); }}
-                disabled={saving}
-                className="flex items-center gap-2 text-sm font-semibold text-accent hover:text-accent/70 transition-colors"
-              >
+              <button onClick={() => { setAddingNew(true); setEditingItemId(null); }} disabled={saving} className="flex items-center gap-2 text-sm font-semibold text-accent hover:text-accent/70 transition-colors">
                 <Plus size={16} /> Neues Gericht / Getränk hinzufügen
               </button>
             </div>
@@ -304,7 +246,7 @@ function CategorySection({ cat, token, onRefresh }: {
   );
 }
 
-/* ── Edit Special Row ───────────────────────────────────── */
+/* ── Image Upload ───────────────────────────────────── */
 
 function ImageUploadField({ imageUrl, onImageUrl }: {
   imageUrl: string;
@@ -315,9 +257,9 @@ function ImageUploadField({ imageUrl, onImageUrl }: {
   const [uploadError, setUploadError] = useState<string | null>(null);
 
   const { uploadFile, isUploading, progress } = useUpload({
-    basePath: "/api/storage",
+    basePath: apiUrl("/api/storage"),
     onSuccess: (response) => {
-      const servedUrl = `/api/storage/objects${response.objectPath.replace(/^\/objects/, "")}`;
+      const servedUrl = apiUrl(`/api/storage/objects${response.objectPath.replace(/^\/objects/, "")}`);
       setPreview(servedUrl);
       onImageUrl(servedUrl);
       setUploadError(null);
@@ -330,10 +272,12 @@ function ImageUploadField({ imageUrl, onImageUrl }: {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
     if (!file.type.startsWith("image/")) {
       setUploadError("Nur Bilddateien erlaubt (JPG, PNG, WebP).");
       return;
     }
+
     setUploadError(null);
     await uploadFile(file);
   };
@@ -342,50 +286,28 @@ function ImageUploadField({ imageUrl, onImageUrl }: {
     <div>
       <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-1">Foto</label>
       <div className="flex gap-3 items-start">
-        {/* Preview box */}
         <div className="flex-shrink-0 w-20 h-20 border border-border bg-muted flex items-center justify-center overflow-hidden">
-          {preview ? (
-            <img src={preview} alt="Vorschau" className="w-full h-full object-cover" />
-          ) : (
-            <ImageIcon size={24} className="text-muted-foreground" />
-          )}
+          {preview ? <img src={preview} alt="Vorschau" className="w-full h-full object-cover" /> : <ImageIcon size={24} className="text-muted-foreground" />}
         </div>
-        {/* Upload control */}
+
         <div className="flex-1 min-w-0">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileChange}
-            disabled={isUploading}
-          />
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={isUploading}
-            className="flex items-center gap-1.5 px-3 py-2 border border-border text-xs font-bold uppercase tracking-wider hover:bg-muted transition-colors disabled:opacity-50 w-full justify-center"
-          >
+          <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} disabled={isUploading} />
+
+          <button type="button" onClick={() => fileInputRef.current?.click()} disabled={isUploading} className="flex items-center gap-1.5 px-3 py-2 border border-border text-xs font-bold uppercase tracking-wider hover:bg-muted transition-colors disabled:opacity-50 w-full justify-center">
             <Upload size={13} />
             {isUploading ? `Hochladen… ${progress}%` : preview ? "Foto ändern" : "Foto auswählen"}
           </button>
+
           {isUploading && (
             <div className="mt-2 h-1.5 bg-muted rounded-full overflow-hidden">
-              <div
-                className="h-full bg-accent transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              />
+              <div className="h-full bg-accent transition-all duration-300" style={{ width: `${progress}%` }} />
             </div>
           )}
-          {uploadError && (
-            <p className="text-xs text-coral mt-1">{uploadError}</p>
-          )}
+
+          {uploadError && <p className="text-xs text-coral mt-1">{uploadError}</p>}
+
           {preview && !isUploading && (
-            <button
-              type="button"
-              onClick={() => { setPreview(""); onImageUrl(""); }}
-              className="text-xs text-muted-foreground mt-1 hover:text-coral transition-colors"
-            >
+            <button type="button" onClick={() => { setPreview(""); onImageUrl(""); }} className="text-xs text-muted-foreground mt-1 hover:text-coral transition-colors">
               Foto entfernen
             </button>
           )}
@@ -394,6 +316,8 @@ function ImageUploadField({ imageUrl, onImageUrl }: {
     </div>
   );
 }
+
+/* ── Edit Special Row ───────────────────────────────────── */
 
 function EditSpecialRow({ special, onSave, onDelete, onCancel }: {
   special: Partial<Special>;
@@ -413,75 +337,46 @@ function EditSpecialRow({ special, onSave, onDelete, onCancel }: {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
         <div>
           <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-1">Titel *</label>
-          <input
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-            className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent"
-            placeholder="z.B. Memphis Monatsspecial"
-          />
+          <input value={title} onChange={e => setTitle(e.target.value)} className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent" placeholder="z.B. Memphis Monatsspecial" />
         </div>
         <div>
           <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-1">Preis</label>
-          <input
-            value={price}
-            onChange={e => setPrice(e.target.value)}
-            className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent"
-            placeholder="z.B. €16,50"
-          />
+          <input value={price} onChange={e => setPrice(e.target.value)} className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent" placeholder="z.B. €16,50" />
         </div>
       </div>
+
       <div className="mb-3">
         <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-1">Untertitel</label>
-        <input
-          value={subtitle}
-          onChange={e => setSubtitle(e.target.value)}
-          className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent"
-          placeholder="z.B. Acai, Granatapfelkerne, Heidelbeeren"
-        />
+        <input value={subtitle} onChange={e => setSubtitle(e.target.value)} className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent" placeholder="z.B. Acai, Granatapfelkerne, Heidelbeeren" />
       </div>
+
       <div className="mb-3">
         <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-1">Beschreibung</label>
-        <textarea
-          value={description}
-          onChange={e => setDescription(e.target.value)}
-          rows={3}
-          className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent resize-none"
-          placeholder="Beschreibung des Specials..."
-        />
+        <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent resize-none" placeholder="Beschreibung des Specials..." />
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
         <ImageUploadField imageUrl={imageUrl} onImageUrl={setImageUrl} />
         <div>
           <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-1">Typ</label>
-          <select
-            value={type}
-            onChange={e => setType(e.target.value)}
-            className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent bg-background"
-          >
+          <select value={type} onChange={e => setType(e.target.value)} className="w-full border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent bg-background">
             <option value="food">Speise / Burger</option>
             <option value="drink">Drink / Cocktail</option>
           </select>
         </div>
       </div>
+
       <div className="flex gap-2 flex-wrap">
-        <button
-          onClick={() => onSave({ title, subtitle, description, price, imageUrl, type })}
-          disabled={!title.trim()}
-          className="flex items-center gap-1.5 px-4 py-2 bg-accent text-primary font-bold text-xs uppercase tracking-wider hover:bg-accent/90 transition-colors disabled:opacity-40"
-        >
+        <button onClick={() => onSave({ title, subtitle, description, price, imageUrl, type })} disabled={!title.trim()} className="flex items-center gap-1.5 px-4 py-2 bg-accent text-primary font-bold text-xs uppercase tracking-wider hover:bg-accent/90 transition-colors disabled:opacity-40">
           <Check size={14} /> Speichern
         </button>
-        <button
-          onClick={onCancel}
-          className="flex items-center gap-1.5 px-4 py-2 border border-border text-muted-foreground font-bold text-xs uppercase tracking-wider hover:bg-muted transition-colors"
-        >
+
+        <button onClick={onCancel} className="flex items-center gap-1.5 px-4 py-2 border border-border text-muted-foreground font-bold text-xs uppercase tracking-wider hover:bg-muted transition-colors">
           <X size={14} /> Abbrechen
         </button>
+
         {onDelete && (
-          <button
-            onClick={onDelete}
-            className="flex items-center gap-1.5 px-4 py-2 bg-coral text-white font-bold text-xs uppercase tracking-wider hover:bg-coral/90 transition-colors ml-auto"
-          >
+          <button onClick={onDelete} className="flex items-center gap-1.5 px-4 py-2 bg-coral text-white font-bold text-xs uppercase tracking-wider hover:bg-coral/90 transition-colors ml-auto">
             <Trash2 size={14} /> Löschen
           </button>
         )}
@@ -501,18 +396,23 @@ function SpecialsTab({ token, onRefresh }: { token: string; onRefresh?: () => vo
 
   const loadSpecials = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/specials", { headers: authHeaders() });
+      const res = await fetch(apiUrl("/api/admin/specials"), { headers: authHeaders() });
       const data = await res.json() as Special[];
       setSpecials(data);
-    } catch { /* ignore */ }
-    finally { setLoading(false); }
+    } catch {
+      /* ignore */
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  useEffect(() => { loadSpecials(); }, [loadSpecials]);
+  useEffect(() => {
+    loadSpecials();
+  }, [loadSpecials]);
 
   async function saveSpecial(id: number, data: Partial<Special>) {
     setSaving(true);
-    await fetch(`/api/admin/specials/${id}`, {
+    await fetch(apiUrl(`/api/admin/specials/${id}`), {
       method: "PUT",
       headers: authHeaders(),
       body: JSON.stringify(data),
@@ -524,7 +424,7 @@ function SpecialsTab({ token, onRefresh }: { token: string; onRefresh?: () => vo
 
   async function addSpecial(data: Partial<Special>) {
     setSaving(true);
-    await fetch("/api/admin/specials", {
+    await fetch(apiUrl("/api/admin/specials"), {
       method: "POST",
       headers: authHeaders(),
       body: JSON.stringify({
@@ -547,7 +447,7 @@ function SpecialsTab({ token, onRefresh }: { token: string; onRefresh?: () => vo
   async function deleteSpecial(id: number) {
     if (!confirm("Special wirklich löschen?")) return;
     setSaving(true);
-    await fetch(`/api/admin/specials/${id}`, {
+    await fetch(apiUrl(`/api/admin/specials/${id}`), {
       method: "DELETE",
       headers: authHeaders(),
     });
@@ -556,7 +456,7 @@ function SpecialsTab({ token, onRefresh }: { token: string; onRefresh?: () => vo
   }
 
   async function toggleVisible(s: Special) {
-    await fetch(`/api/admin/specials/${s.id}`, {
+    await fetch(apiUrl(`/api/admin/specials/${s.id}`), {
       method: "PUT",
       headers: authHeaders(),
       body: JSON.stringify({ isVisible: !s.isVisible }),
@@ -568,7 +468,6 @@ function SpecialsTab({ token, onRefresh }: { token: string; onRefresh?: () => vo
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Info */}
       <div className="bg-accent/10 border border-accent/30 p-4 text-sm text-primary">
         <strong>Top of the Month & Specials:</strong> Hier kannst du monatliche Specials verwalten. Sie erscheinen unter <code className="bg-muted px-1">/specials</code> auf der Website. Du kannst Titel, Beschreibung, Preis, Bild-URL und Typ (Speise / Drink) festlegen.
       </div>
@@ -578,29 +477,16 @@ function SpecialsTab({ token, onRefresh }: { token: string; onRefresh?: () => vo
       )}
 
       {specials.map((s) => (
-        <div
-          key={s.id}
-          className={`border border-border bg-card ${!s.isVisible ? "opacity-60" : ""}`}
-        >
+        <div key={s.id} className={`border border-border bg-card ${!s.isVisible ? "opacity-60" : ""}`}>
           {editingId === s.id ? (
             <div className="p-4">
-              <EditSpecialRow
-                special={s}
-                onSave={(data) => saveSpecial(s.id, data)}
-                onDelete={() => deleteSpecial(s.id)}
-                onCancel={() => setEditingId(null)}
-              />
+              <EditSpecialRow special={s} onSave={(data) => saveSpecial(s.id, data)} onDelete={() => deleteSpecial(s.id)} onCancel={() => setEditingId(null)} />
             </div>
           ) : (
             <div className="flex items-start justify-between gap-4 px-5 py-4">
               <div className="flex gap-4 items-start flex-1 min-w-0">
                 {s.imageUrl && (
-                  <img
-                    src={s.imageUrl}
-                    alt={s.title}
-                    className="w-16 h-16 object-cover flex-shrink-0"
-                    onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-                  />
+                  <img src={s.imageUrl} alt={s.title} className="w-16 h-16 object-cover flex-shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
                 )}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-0.5">
@@ -608,27 +494,19 @@ function SpecialsTab({ token, onRefresh }: { token: string; onRefresh?: () => vo
                     <span className={`text-xs px-2 py-0.5 font-bold uppercase tracking-wider ${s.type === "drink" ? "bg-blue-100 text-blue-700" : "bg-accent/20 text-primary"}`}>
                       {s.type === "drink" ? "Drink" : "Speise"}
                     </span>
-                    {!s.isVisible && (
-                      <span className="text-xs px-2 py-0.5 bg-muted text-muted-foreground font-bold uppercase tracking-wider">Ausgeblendet</span>
-                    )}
+                    {!s.isVisible && <span className="text-xs px-2 py-0.5 bg-muted text-muted-foreground font-bold uppercase tracking-wider">Ausgeblendet</span>}
                   </div>
                   {s.subtitle && <p className="text-muted-foreground text-xs">{s.subtitle}</p>}
                   {s.description && <p className="text-muted-foreground text-xs mt-1 truncate max-w-lg">{s.description}</p>}
                 </div>
               </div>
+
               <div className="flex items-center gap-1 flex-shrink-0">
                 {s.price && <span className="font-bold text-sm text-primary mr-2 whitespace-nowrap">{s.price}</span>}
-                <button
-                  onClick={() => toggleVisible(s)}
-                  title={s.isVisible ? "Ausblenden" : "Einblenden"}
-                  className="p-1.5 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
-                >
+                <button onClick={() => toggleVisible(s)} title={s.isVisible ? "Ausblenden" : "Einblenden"} className="p-1.5 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-primary">
                   {s.isVisible ? <Eye size={15} /> : <EyeOff size={15} />}
                 </button>
-                <button
-                  onClick={() => setEditingId(s.id)}
-                  className="p-1.5 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
-                >
+                <button onClick={() => setEditingId(s.id)} className="p-1.5 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-primary">
                   <Pencil size={15} />
                 </button>
               </div>
@@ -639,18 +517,10 @@ function SpecialsTab({ token, onRefresh }: { token: string; onRefresh?: () => vo
 
       {addingNew ? (
         <div className="border border-border bg-card p-4">
-          <EditSpecialRow
-            special={{ type: "food" }}
-            onSave={addSpecial}
-            onCancel={() => setAddingNew(false)}
-          />
+          <EditSpecialRow special={{ type: "food" }} onSave={addSpecial} onCancel={() => setAddingNew(false)} />
         </div>
       ) : (
-        <button
-          onClick={() => { setAddingNew(true); setEditingId(null); }}
-          disabled={saving}
-          className="flex items-center gap-2 px-5 py-4 border border-dashed border-border text-muted-foreground hover:text-primary hover:border-accent transition-colors text-sm font-semibold"
-        >
+        <button onClick={() => { setAddingNew(true); setEditingId(null); }} disabled={saving} className="flex items-center gap-2 px-5 py-4 border border-dashed border-border text-muted-foreground hover:text-primary hover:border-accent transition-colors text-sm font-semibold">
           <Plus size={16} /> Neues Special / Top of the Month hinzufügen
         </button>
       )}
@@ -673,16 +543,25 @@ export default function AdminDashboardPage() {
 
   const loadMenu = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/menu", { headers: authHeaders() });
-      if (res.status === 401) { navigate("/admin"); return; }
+      const res = await fetch(apiUrl("/api/admin/menu"), { headers: authHeaders() });
+      if (res.status === 401) {
+        navigate("/admin");
+        return;
+      }
       const data = await res.json() as MenuCategory[];
       setCategories(data);
-    } catch { /* ignore */ }
-    finally { setLoading(false); }
+    } catch {
+      /* ignore */
+    } finally {
+      setLoading(false);
+    }
   }, [navigate]);
 
   useEffect(() => {
-    if (!token) { navigate("/admin"); return; }
+    if (!token) {
+      navigate("/admin");
+      return;
+    }
     loadMenu();
   }, [token, loadMenu, navigate]);
 
@@ -693,8 +572,10 @@ export default function AdminDashboardPage() {
 
   async function addCategory() {
     if (!newCatName.trim()) return;
+
     const slug = newCatName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-    await fetch("/api/admin/categories", {
+
+    await fetch(apiUrl("/api/admin/categories"), {
       method: "POST",
       headers: authHeaders(),
       body: JSON.stringify({
@@ -704,6 +585,7 @@ export default function AdminDashboardPage() {
         sortOrder: categories.length + 1,
       }),
     });
+
     setNewCatName("");
     setShowAddCategory(false);
     loadMenu();
@@ -713,50 +595,34 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="bg-primary text-primary-foreground px-4 py-4 sticky top-0 z-40 shadow-lg">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <img
-              src="https://hochstapler-burger.de/wp-content/uploads/2021/04/Logo_sticky.png"
-              alt="Hochstapler Burger"
-              className="h-8 w-auto brightness-0 invert"
-            />
+            <img src="https://hochstapler-burger.de/wp-content/uploads/2021/04/Logo_sticky.png" alt="Hochstapler Burger" className="h-8 w-auto brightness-0 invert" />
             <div>
               <h1 className="font-serif text-lg text-background leading-none">Karte & Specials verwalten</h1>
               <p className="text-primary-foreground/50 text-xs mt-0.5">Mitarbeiter-Bereich</p>
             </div>
           </div>
-          <button
-            onClick={logout}
-            className="flex items-center gap-2 text-primary-foreground/60 hover:text-primary-foreground text-sm transition-colors"
-          >
+
+          <button onClick={logout} className="flex items-center gap-2 text-primary-foreground/60 hover:text-primary-foreground text-sm transition-colors">
             <LogOut size={16} /> Abmelden
           </button>
         </div>
       </header>
 
       <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Tabs */}
         <div className="flex gap-0 border-b border-border mb-6">
           {(["food", "drink", "specials"] as const).map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`flex items-center gap-1.5 px-6 py-3 font-bold text-sm uppercase tracking-wider border-b-2 transition-colors ${activeTab === tab ? "border-accent text-primary" : "border-transparent text-muted-foreground hover:text-primary"}`}
-            >
+            <button key={tab} onClick={() => setActiveTab(tab)} className={`flex items-center gap-1.5 px-6 py-3 font-bold text-sm uppercase tracking-wider border-b-2 transition-colors ${activeTab === tab ? "border-accent text-primary" : "border-transparent text-muted-foreground hover:text-primary"}`}>
               {tab === "specials" && <Star size={14} />}
               {tab === "food" ? "Speisekarte" : tab === "drink" ? "Getränkekarte" : "Top of the Month"}
             </button>
           ))}
         </div>
 
-        {/* Specials Tab */}
-        {activeTab === "specials" && (
-          <SpecialsTab token={token ?? ""} />
-        )}
+        {activeTab === "specials" && <SpecialsTab token={token ?? ""} />}
 
-        {/* Menu Tabs */}
         {activeTab !== "specials" && (
           <>
             <div className="bg-accent/10 border border-accent/30 p-4 mb-6 text-sm text-primary">
@@ -768,53 +634,31 @@ export default function AdminDashboardPage() {
             ) : (
               <div className="flex flex-col gap-2">
                 {filtered.map((cat) => (
-                  <CategorySection
-                    key={cat.id}
-                    cat={cat}
-                    token={token ?? ""}
-                    onRefresh={loadMenu}
-                  />
+                  <CategorySection key={cat.id} cat={cat} token={token ?? ""} onRefresh={loadMenu} />
                 ))}
 
                 {showAddCategory ? (
                   <div className="border border-border bg-card p-5">
                     <h3 className="font-bold text-sm uppercase tracking-wider text-primary mb-3">Neue Kategorie</h3>
                     <div className="flex gap-3 flex-wrap">
-                      <input
-                        value={newCatName}
-                        onChange={e => setNewCatName(e.target.value)}
-                        placeholder="Name der Kategorie"
-                        className="flex-1 min-w-48 border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent"
-                        onKeyDown={e => e.key === "Enter" && addCategory()}
-                      />
-                      <select
-                        value={newCatType}
-                        onChange={e => setNewCatType(e.target.value as "food" | "drink")}
-                        className="border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent bg-background"
-                      >
+                      <input value={newCatName} onChange={e => setNewCatName(e.target.value)} placeholder="Name der Kategorie" className="flex-1 min-w-48 border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent" onKeyDown={e => e.key === "Enter" && addCategory()} />
+
+                      <select value={newCatType} onChange={e => setNewCatType(e.target.value as "food" | "drink")} className="border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent bg-background">
                         <option value="food">Speisen</option>
                         <option value="drink">Getränke</option>
                       </select>
-                      <button
-                        onClick={addCategory}
-                        disabled={!newCatName.trim()}
-                        className="flex items-center gap-2 px-4 py-2 bg-accent text-primary font-bold text-xs uppercase tracking-wider hover:bg-accent/90 disabled:opacity-40"
-                      >
+
+                      <button onClick={addCategory} disabled={!newCatName.trim()} className="flex items-center gap-2 px-4 py-2 bg-accent text-primary font-bold text-xs uppercase tracking-wider hover:bg-accent/90 disabled:opacity-40">
                         <Check size={14} /> Erstellen
                       </button>
-                      <button
-                        onClick={() => { setShowAddCategory(false); setNewCatName(""); }}
-                        className="flex items-center gap-2 px-4 py-2 border border-border text-muted-foreground font-bold text-xs uppercase tracking-wider hover:bg-muted"
-                      >
+
+                      <button onClick={() => { setShowAddCategory(false); setNewCatName(""); }} className="flex items-center gap-2 px-4 py-2 border border-border text-muted-foreground font-bold text-xs uppercase tracking-wider hover:bg-muted">
                         <X size={14} /> Abbrechen
                       </button>
                     </div>
                   </div>
                 ) : (
-                  <button
-                    onClick={() => setShowAddCategory(true)}
-                    className="flex items-center gap-2 px-5 py-4 border border-dashed border-border text-muted-foreground hover:text-primary hover:border-accent transition-colors text-sm font-semibold"
-                  >
+                  <button onClick={() => setShowAddCategory(true)} className="flex items-center gap-2 px-5 py-4 border border-dashed border-border text-muted-foreground hover:text-primary hover:border-accent transition-colors text-sm font-semibold">
                     <Plus size={16} /> Neue Kategorie hinzufügen
                   </button>
                 )}

@@ -1,3 +1,4 @@
+import { apiUrl } from "@/lib/api";
 import { useState } from "react";
 import { Link } from "wouter";
 import { motion, type Easing } from "framer-motion";
@@ -57,7 +58,7 @@ export default function ReservierungPage() {
       (data.notes ? `Anmerkungen: ${data.notes}\n` : "") +
       `\nVielen Dank und bis bald!\n${data.name}`;
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(apiUrl("/api/contact"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -252,14 +253,14 @@ export default function ReservierungPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="space-y-1.5">
                       <Label htmlFor="date">Wunschdatum *</Label>
-                      <Input id="date" type="date" {...register("date")} />
+                      <Input id="date" type="date" lang="de-DE" {...register("date")} />
                       {errors.date && (
                         <p className="text-destructive text-xs">{errors.date.message}</p>
                       )}
                     </div>
                     <div className="space-y-1.5">
                       <Label htmlFor="time">Wunschzeit *</Label>
-                      <Input id="time" type="time" {...register("time")} />
+                      <Input id="time" type="time" lang="de-DE" {...register("time")} />
                       {errors.time && (
                         <p className="text-destructive text-xs">{errors.time.message}</p>
                       )}

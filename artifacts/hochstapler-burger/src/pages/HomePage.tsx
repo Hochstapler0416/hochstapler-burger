@@ -162,7 +162,7 @@ export default function HomePage() {
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <a
-              href="mailto:reservierung@hochstapler-burger.de"
+              href="/reservierung"
               className="inline-flex items-center gap-3 px-8 py-4 border-2 border-background/60 text-background font-bold text-sm uppercase tracking-wider hover:border-accent hover:text-accent transition-colors"
               data-testid="button-reservierung-hero"
             >
@@ -504,7 +504,7 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="mailto:reservierung@hochstapler-burger.de"
+                href="/reservierung"
                 className="group inline-flex items-center justify-center gap-3 px-10 py-5 bg-coral text-white font-bold text-sm uppercase tracking-wider hover:bg-coral/90 transition-all"
                 data-testid="button-reservierung-cta"
               >
