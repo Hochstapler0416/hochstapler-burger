@@ -3,22 +3,26 @@ import { db } from "@workspace/db";
 import { menuCategoriesTable, menuItemsTable } from "@workspace/db/schema";
 import { eq, asc } from "drizzle-orm";
 import { SignJWT } from "jose";
+import { createHash, timingSafeEqual } from "node:crypto";
+import { adminSecret } from "../lib/adminSecret.js";
+import { rateLimit } from "../middlewares/rateLimit.js";
 import { requireAdmin } from "../middlewares/adminAuth.js";
 
 const router = Router();
-const secret = new TextEncoder().encode(process.env.SESSION_SECRET ?? "fallback-secret-change-me");
+const secret = adminSecret;
 
 /* ── Auth ─────────────────────────────────────────────── */
 
-router.post("/admin/login", async (req, res) => {
-  const { password } = req.body as { password?: string };
+router.post("/admin/login", rateLimit(10, 15 * 60 * 1000), async (req, res) => {
+  const password = req.body?.password;
   const adminPassword = process.env.ADMIN_PASSWORD;
 
   if (!adminPassword) {
     res.status(503).json({ error: "ADMIN_PASSWORD not configured" });
     return;
   }
-  if (!password || password !== adminPassword) {
+  if (typeof password !== "string" || password.length > 256 ||
+      !timingSafeEqual(createHash("sha256").update(password).digest(), createHash("sha256").update(adminPassword).digest())) {
     res.status(401).json({ error: "Falsches Passwort" });
     return;
   }

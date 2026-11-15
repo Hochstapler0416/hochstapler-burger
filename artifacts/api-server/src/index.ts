@@ -15,7 +15,11 @@ if (Number.isNaN(port) || port <= 0) {
   throw new Error(`Invalid PORT value: "${rawPort}"`);
 }
 
-app.listen(port, (err) => {
+if (process.env.NODE_ENV === "production" && (process.env.ADMIN_PASSWORD?.length ?? 0) < 12) {
+  throw new Error("ADMIN_PASSWORD must contain at least 12 characters in production.");
+}
+
+app.listen(port, process.env.HOST ?? "0.0.0.0", (err) => {
   if (err) {
     logger.error({ err }, "Error listening on port");
     process.exit(1);

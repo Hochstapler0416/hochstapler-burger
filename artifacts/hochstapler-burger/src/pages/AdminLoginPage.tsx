@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <img
-            src="https://hochstapler-burger.de/wp-content/uploads/2021/04/Logo_sticky.png"
+            src="/logo.png"
             alt="Hochstapler Burger"
             className="h-16 w-auto mx-auto mb-6 brightness-0 invert"
           />

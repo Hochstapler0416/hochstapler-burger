@@ -16,6 +16,7 @@ interface UploadResponse {
 interface UseUploadOptions {
   /** Base path where object storage routes are mounted (default: "/api/storage") */
   basePath?: string;
+  getHeaders?: () => Record<string, string>;
   onSuccess?: (response: UploadResponse) => void;
   onError?: (error: Error) => void;
 }
@@ -64,6 +65,7 @@ export function useUpload(options: UseUploadOptions = {}) {
       const response = await fetch(`${basePath}/uploads/request-url`, {
         method: "POST",
         headers: {
+          ...options.getHeaders?.(),
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -80,7 +82,7 @@ export function useUpload(options: UseUploadOptions = {}) {
 
       return response.json();
     },
-    []
+    [basePath, options.getHeaders]
   );
 
   const uploadToPresignedUrl = useCallback(
@@ -89,6 +91,7 @@ export function useUpload(options: UseUploadOptions = {}) {
         method: "PUT",
         body: file,
         headers: {
+          ...options.getHeaders?.(),
           "Content-Type": file.type || "application/octet-stream",
         },
       });
@@ -97,7 +100,7 @@ export function useUpload(options: UseUploadOptions = {}) {
         throw new Error("Failed to upload file to storage");
       }
     },
-    []
+    [basePath, options.getHeaders]
   );
 
   const uploadFile = useCallback(
@@ -139,6 +142,7 @@ export function useUpload(options: UseUploadOptions = {}) {
       const response = await fetch(`${basePath}/uploads/request-url`, {
         method: "POST",
         headers: {
+          ...options.getHeaders?.(),
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -156,10 +160,10 @@ export function useUpload(options: UseUploadOptions = {}) {
       return {
         method: "PUT",
         url: data.uploadURL,
-        headers: { "Content-Type": file.type || "application/octet-stream" },
+        headers: { ...options.getHeaders?.(), "Content-Type": file.type || "application/octet-stream" },
       };
     },
-    []
+    [basePath, options.getHeaders]
   );
 
   return {

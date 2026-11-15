@@ -258,6 +258,7 @@ function ImageUploadField({ imageUrl, onImageUrl }: {
 
   const { uploadFile, isUploading, progress } = useUpload({
     basePath: apiUrl("/api/storage"),
+    getHeaders: authHeaders,
     onSuccess: (response) => {
       const servedUrl = apiUrl(`/api/storage/objects${response.objectPath.replace(/^\/objects/, "")}`);
       setPreview(servedUrl);
@@ -598,7 +599,7 @@ export default function AdminDashboardPage() {
       <header className="bg-primary text-primary-foreground px-4 py-4 sticky top-0 z-40 shadow-lg">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <img src="https://hochstapler-burger.de/wp-content/uploads/2021/04/Logo_sticky.png" alt="Hochstapler Burger" className="h-8 w-auto brightness-0 invert" />
+            <img src="/logo.png" alt="Hochstapler Burger" className="h-8 w-auto brightness-0 invert" />
             <div>
               <h1 className="font-serif text-lg text-background leading-none">Karte & Specials verwalten</h1>
               <p className="text-primary-foreground/50 text-xs mt-0.5">Mitarbeiter-Bereich</p>
